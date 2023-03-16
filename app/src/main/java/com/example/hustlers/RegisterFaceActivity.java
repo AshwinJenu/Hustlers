@@ -84,7 +84,6 @@ public class RegisterFaceActivity extends AppCompatActivity {
     float IMAGE_STD = 128.0f;
     int OUTPUT_SIZE=192; //Output size of model
 
-    Bitmap final_detected_bitmap;
     Button camera_switch, add_face;
     Button confirm;
     Dialog dialog;
@@ -133,15 +132,12 @@ public class RegisterFaceActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: add detected face to db and clear face
-
                 try {
+                    //TODO: Insert username Dynamically
                     uploadFace("Ashwin",embeedings);
                 } catch (IOException e) {
                     System.out.println("Couldn't convert embeedings to bytes");
                 }
-
-                Toast.makeText(context, "face Registered Successfully", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
@@ -529,14 +525,12 @@ public class RegisterFaceActivity extends AppCompatActivity {
         tfLite.runForMultipleInputsOutputs(inputArray, outputMap); //Run model
 
     }
-
     public void uploadFace(String name,float[][] embeedings) throws IOException {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bos);
         oos.writeObject(embeedings);
         byte[] embeddingsBytes = bos.toByteArray();
-
 
         try {
             ConnectionHelper register = new ConnectionHelper();
@@ -556,7 +550,6 @@ public class RegisterFaceActivity extends AppCompatActivity {
                     if (rowsInserted > 0) {
                         System.out.println("A new face was inserted successfully.");
                     }
-
                     Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
 
                 } catch (SQLException e) {
@@ -569,7 +562,5 @@ public class RegisterFaceActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Connection Failed!", Toast.LENGTH_SHORT).show();
         }
-
     }
-
 }

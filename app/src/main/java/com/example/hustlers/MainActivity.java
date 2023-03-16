@@ -11,16 +11,18 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton upload;
+    ImageButton face_register;
+    ImageButton face_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        upload = (ImageButton) findViewById(R.id.upload_btn);
+        face_register = (ImageButton) findViewById(R.id.face_register_btn);
+        face_login = (ImageButton) findViewById(R.id.face_login_btn);
 
-        upload.setOnClickListener(new View.OnClickListener() {
+        face_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,RegisterFaceActivity.class);
@@ -28,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        face_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,FaceLoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
