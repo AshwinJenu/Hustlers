@@ -1,4 +1,4 @@
-package com.example.hustlers.Admin;
+package com.example.hustlers.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +49,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.face.Face;
 import com.google.mlkit.vision.face.FaceDetection;
@@ -79,9 +81,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import javax.xml.transform.Result;
-
-public class AdminActivity extends AppCompatActivity {private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+public class AdminVerificationActivity extends AppCompatActivity {private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     CameraSelector cameraSelector;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -145,7 +145,7 @@ public class AdminActivity extends AppCompatActivity {private ListenableFuture<P
         });
         //Load model
         try {
-            tfLite=new Interpreter(loadModelFile(AdminActivity.this,modelFile));
+            tfLite=new Interpreter(loadModelFile(AdminVerificationActivity.this,modelFile));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -268,23 +268,29 @@ public class AdminActivity extends AppCompatActivity {private ListenableFuture<P
 
                 if(distance_local<distance) {//If distance between Closest found face is less than 1.000, login successful
 
-                    DocumentReference ref = db.collection("user").document(uid);
-                    ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    CollectionReference ref = db.collection("appointment");
+                    ref.whereEqualTo("uid", uid).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            String appId = task.getResult().getString("regId");
-                            String docId = task.getResult().getString("docId");
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            String appId;
+                            String docId;
 
-                            db.collection("appointment").document(appId).update("isVerified", true);
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                appId = documentSnapshot.getString("regId");
+                                docId = documentSnapshot.getString("docId");
 
-                            db.collection("doctor").document(docId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    int token = (int)task.getResult().get("token")+1;
-                                    db.collection("appointment").document(docId).update("token", token);
-                                    db.collection("doctor").document(docId).update("token",token);
-                                }
-                            });
+                                db.collection("appointment").document(appId).update("isVerified", true);
+
+                                String finalDocId = docId;
+                                db.collection("doctor").document(docId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        int token = (int) task.getResult().get("token") + 1;
+                                        db.collection("appointment").document(finalDocId).update("token", token);
+                                        db.collection("doctor").document(finalDocId).update("token", token);
+                                    }
+                                });
+                            }
                         }
                     });
 
