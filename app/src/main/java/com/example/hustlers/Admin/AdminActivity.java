@@ -183,6 +183,7 @@ public class AdminActivity extends AppCompatActivity {private ListenableFuture<P
                     ResultSet rs = ps.executeQuery();
 
                     while (rs.next()) {
+                        String username = rs.getString("username");
                         String name = rs.getString("name");
                         byte[] bytes = rs.getBytes("embeedings_data");
                         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
@@ -191,7 +192,7 @@ public class AdminActivity extends AppCompatActivity {private ListenableFuture<P
 
                         result.setExtra(embeedings);
                         //registered.put(name,result);
-                        registered.add(new RecognitionObject("Ashwin", result));
+                        registered.add(new RecognitionObject(username,name, result));
                     }
 
                 } catch (SQLException e) {

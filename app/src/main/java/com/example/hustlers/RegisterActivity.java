@@ -46,8 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             Intent intent = new Intent(RegisterActivity.this, RegisterFaceActivity.class);
 
-                            intent.putExtra("email",email.getText().toString());
-                            intent.putExtra("name",name.getText().toString());
+                            intent.putExtra("name",email.getText().toString());
+                            intent.putExtra("username",name.getText().toString());
                             startActivity(intent);
                         }
                     });
