@@ -344,7 +344,7 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
     {
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
 
-        previewView=findViewById(R.id.previewViewLogin);
+        previewView=findViewById(R.id.previewViewAdmin);
         cameraProviderFuture.addListener(() -> {
             try {
                 cameraProvider = cameraProviderFuture.get();
