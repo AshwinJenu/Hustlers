@@ -262,16 +262,14 @@ public class AdminActivity extends AppCompatActivity {private ListenableFuture<P
 
             if (nearest.get(0) != null) {
                 Intent intent = getIntent();
-                String registrationNumber = intent.getStringExtra("regNo");
-                String docId = intent.getStringExtra("docId");
 
-                final String userId = nearest.get(0).first; //get name and distance of closest matching face
+                final String uid = nearest.get(0).first; //get name and distance of closest matching face
                 // label = name;
                 distance_local = nearest.get(0).second;
 
                 if(distance_local<distance) {//If distance between Closest found face is less than 1.000, login successful
 
-                    DocumentReference ref = db.collection("user").document(id);
+                    DocumentReference ref = db.collection("user").document(uid);
                     ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -291,7 +289,7 @@ public class AdminActivity extends AppCompatActivity {private ListenableFuture<P
                         }
                     });
 
-                    Toast.makeText(this, "Welcome "+userId, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Welcome "+uid, Toast.LENGTH_SHORT).show();
                 }
                 else {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
                     Toast.makeText(this, "Unknown Face", Toast.LENGTH_SHORT).show();

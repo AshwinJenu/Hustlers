@@ -134,7 +134,8 @@ public class RegisterFaceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     //TODO: Insert username Dynamically
-                    uploadFace("Ashwin",embeedings);
+                    String username = getIntent().getStringExtra("email");
+                    uploadFace(username,embeedings);
                 } catch (IOException e) {
                     System.out.println("Couldn't convert embeedings to bytes");
                 }
