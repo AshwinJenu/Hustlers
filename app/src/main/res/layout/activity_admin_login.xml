@@ -7,14 +7,14 @@
     android:layout_height="match_parent">
     <!--    tools:context=".ui.login.LoginActivity">-->
 
-    <TextView
+    <EditText
         android:id="@+id/editTextTPersonName4"
         android:layout_width="365dp"
         android:layout_height="49dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="92dp"
         android:background="@drawable/edittext_background"
-        android:drawableStart="@drawable/name"
+        android:drawableStart="@drawable/password"
         android:drawablePadding="16dp"
         android:ems="10"
         android:hint="Password"
@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
+    <EditText
         android:id="@+id/editTextTPersonName2"
         android:layout_width="365dp"
         android:layout_height="49dp"

@@ -8,7 +8,7 @@
 <!--    tools:context=".ui.login.LoginActivity">-->
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/admin_login_btn"
         android:layout_width="138dp"
         android:layout_height="59dp"
         android:layout_marginStart="36dp"
@@ -69,7 +69,7 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/patient_login_btn"
         android:layout_width="138dp"
         android:layout_height="59dp"
         android:layout_marginStart="36dp"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/patient_register_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="228dp"
@@ -87,6 +87,6 @@
         android:text="Register Here."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/admin_login_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

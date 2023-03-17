@@ -182,7 +182,8 @@ public class FaceLoginActivity extends AppCompatActivity {
 
                         result.setExtra(embeedings);
                         //registered.put(name,result);
-                        registered.add(new RecognitionObject("Ashwin", result));
+                        //TODO: CHANGE NAME
+                        registered.add(new RecognitionObject(name, result));
                     }
 
                 } catch (SQLException e) {
@@ -256,7 +257,7 @@ public class FaceLoginActivity extends AppCompatActivity {
                 distance_local = nearest.get(0).second;
 
                 if(distance_local<distance) {//If distance between Closest found face is less than 1.000, login successful
-                    Intent intent = new Intent(FaceLoginActivity.this,MainActivity.class);
+                    Intent intent = new Intent(FaceLoginActivity.this,MenuActivity.class);
                     intent.putExtra("name",name);
                     startActivity(intent);
                     Toast.makeText(this, "Welcome "+name, Toast.LENGTH_SHORT).show();

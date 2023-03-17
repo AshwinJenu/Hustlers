@@ -108,6 +108,10 @@ public class RegisterFaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_face);
 
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+
+
         camera_switch=(Button) findViewById(R.id.switch_camera_btn);
         add_face = (Button) findViewById(R.id.add_face_btn);
 
@@ -551,6 +555,9 @@ public class RegisterFaceActivity extends AppCompatActivity {
                     if (rowsInserted > 0) {
                         System.out.println("A new face was inserted successfully.");
                     }
+                    Intent intent = new Intent(RegisterFaceActivity.this,LoginPageActivity.class);
+                    intent.putExtra("name",name);
+                    startActivity(intent);
                     Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
 
                 } catch (SQLException e) {

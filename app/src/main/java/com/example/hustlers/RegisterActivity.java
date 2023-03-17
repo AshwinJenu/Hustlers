@@ -22,16 +22,16 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    TextView name;
-    TextView email;
+    EditText name;
+    EditText email;
     Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        name = (TextView) findViewById(R.id.editTextTPersonName3);
-        email = (TextView) findViewById(R.id.editTextTextPersonName);
+        name = (EditText) findViewById(R.id.editTextTPersonName3);
+        email = (EditText) findViewById(R.id.editTextTextPersonName);
         button = (Button) findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Intent intent = new Intent(RegisterActivity.this, RegisterFaceActivity.class);
 
                             intent.putExtra("email",email.getText().toString());
+                            intent.putExtra("name",name.getText().toString());
                             startActivity(intent);
                         }
                     });

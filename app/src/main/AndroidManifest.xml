@@ -19,10 +19,13 @@
             android:name=".AdminLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginPage"
+            android:name=".LoginPageActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuActivity"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminActivity"
@@ -34,7 +37,7 @@
             android:name=".RegisterFaceActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -37,8 +37,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.hustlers.ConnectionHelper;
-import com.example.hustlers.FaceLoginActivity;
-import com.example.hustlers.MainActivity;
 import com.example.hustlers.R;
 import com.example.hustlers.RecognitionObject;
 import com.example.hustlers.SimilarityClassifier;
