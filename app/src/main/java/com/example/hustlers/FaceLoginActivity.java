@@ -10,6 +10,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -32,6 +33,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.util.Size;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -194,7 +196,8 @@ public class FaceLoginActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Connection Failed!", Toast.LENGTH_SHORT).show();
+            KToast.errorToast(this, "Connection Failed!", Gravity.BOTTOM, KToast.LENGTH_AUTO);
+            //Toast.makeText(getApplicationContext(), "Connection Failed!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -260,10 +263,13 @@ public class FaceLoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(FaceLoginActivity.this,MenuActivity.class);
                     intent.putExtra("name",username);
                     startActivity(intent);
-                    Toast.makeText(this, "Welcome "+username, Toast.LENGTH_SHORT).show();
+                    KToast.customBackgroudToast(this, "Welcome "+username, Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
+
+                    //Toast.makeText(this, "Welcome "+username, Toast.LENGTH_SHORT).show();
                 }
                 else {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
-                    Toast.makeText(this, "Unknown Face", Toast.LENGTH_SHORT).show();
+                    KToast.warningToast(this, "Unknown Face", Gravity.BOTTOM, KToast.LENGTH_AUTO);
+                    //Toast.makeText(this, "Unknown Face", Toast.LENGTH_SHORT).show();
                 }
             }
         }
