@@ -107,6 +107,7 @@ public class FaceLoginActivity extends AppCompatActivity {
         camera_switch=(Button) findViewById(R.id.switch_camera_btn_login);
         scan_face = (Button) findViewById(R.id.scan_face_btn);
 
+        registered.clear();
         loadFaceData(); //get all faces from SQL DB
         //Check if data is loaded
         if(!registered.isEmpty()){
@@ -151,18 +152,11 @@ public class FaceLoginActivity extends AppCompatActivity {
 
         scan_face.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                checkFace();
-            }
+            public void onClick(View view) {checkFace();}
         });
-
     }
 
     private void loadFaceData() {
-
-        //Create and Initialize new object with Face embeddings and Name.
-        SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition(
-                "0", "", -1f);
 
         try {
             ConnectionHelper register = new ConnectionHelper();
@@ -170,10 +164,16 @@ public class FaceLoginActivity extends AppCompatActivity {
 
             if (connect != null) {
                 try {
-                    PreparedStatement ps = connect.prepareStatement("SELECT name,embeedings_data FROM Faces");
+                    PreparedStatement ps = connect.prepareStatement("SELECT username,name,embeedings_data FROM Faces");
                     ResultSet rs = ps.executeQuery();
 
                     while (rs.next()) {
+
+                        //Create and Initialize new object with Face embeddings and Name.
+                        SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition(
+                                "0", "", -1f);
+
+                        String username = rs.getString("username");
                         String name = rs.getString("name");
                         byte[] bytes = rs.getBytes("embeedings_data");
                         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
@@ -182,7 +182,8 @@ public class FaceLoginActivity extends AppCompatActivity {
 
                         result.setExtra(embeedings);
                         //registered.put(name,result);
-                        registered.add(new RecognitionObject("Ashwin", result));
+                        //TODO: CHANGE NAME
+                        registered.add(new RecognitionObject(username,name, result));
                     }
 
                 } catch (SQLException e) {
@@ -247,19 +248,19 @@ public class FaceLoginActivity extends AppCompatActivity {
         //Compare new face with saved Faces.
         if (registered.size() > 0) {
 
-            final List<Pair<String, Float>> nearest = findNearest(embeedings[0]);//Find 2 closest matching face
+            List<Pair<String, Float>> nearest = findNearest(embeedings[0]);//Find 2 closest matching face
 
             if (nearest.get(0) != null) {
 
-                final String name = nearest.get(0).first; //get name and distance of closest matching face
+                final String username = nearest.get(0).first; //get name and distance of closest matching face
                 // label = name;
                 distance_local = nearest.get(0).second;
 
                 if(distance_local<distance) {//If distance between Closest found face is less than 1.000, login successful
-                    Intent intent = new Intent(FaceLoginActivity.this,MainActivity.class);
-                    intent.putExtra("name",name);
+                    Intent intent = new Intent(FaceLoginActivity.this,MenuActivity.class);
+                    intent.putExtra("name",username);
                     startActivity(intent);
-                    Toast.makeText(this, "Welcome "+name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Welcome "+username, Toast.LENGTH_SHORT).show();
                 }
                 else {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
                     Toast.makeText(this, "Unknown Face", Toast.LENGTH_SHORT).show();
@@ -274,8 +275,10 @@ public class FaceLoginActivity extends AppCompatActivity {
         Pair<String, Float> prev_ret = null; //to get second closest match
         for (RecognitionObject object : registered)
         {
-
+            final String username = object.getUserName();
             final String name = object.getName();
+            //Iterating Properly
+            System.out.println("email: "+name);
             final float[] knownEmb = ((float[][]) object.getRecognition().getExtra())[0];
 
             float distance = 0;
@@ -286,7 +289,7 @@ public class FaceLoginActivity extends AppCompatActivity {
             distance = (float) Math.sqrt(distance);
             if (ret == null || distance < ret.second) {
                 prev_ret=ret;
-                ret = new Pair<>(name, distance);
+                ret = new Pair<>(username, distance);
             }
         }
         if(prev_ret==null) prev_ret=ret;

@@ -108,6 +108,11 @@ public class RegisterFaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_face);
 
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+        String name = intent.getStringExtra("name");
+
+
         camera_switch=(Button) findViewById(R.id.switch_camera_btn);
         add_face = (Button) findViewById(R.id.add_face_btn);
 
@@ -133,8 +138,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    //TODO: Insert username Dynamically
-                    uploadFace("Ashwin",embeedings);
+                    uploadFace(username,name,embeedings);
                 } catch (IOException e) {
                     System.out.println("Couldn't convert embeedings to bytes");
                 }
@@ -525,7 +529,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
         tfLite.runForMultipleInputsOutputs(inputArray, outputMap); //Run model
 
     }
-    public void uploadFace(String name,float[][] embeedings) throws IOException {
+    public void uploadFace(String username, String name,float[][] embeedings) throws IOException {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -538,10 +542,11 @@ public class RegisterFaceActivity extends AppCompatActivity {
 
             if (connect != null) {
                 try {
-                    String query = "INSERT INTO Faces (name, embeedings_data) VALUES (?, ?)";
+                    String query = "INSERT INTO Faces (username,name, embeedings_data) VALUES (?, ?,?)";
                     PreparedStatement ps = connect.prepareStatement(query);
-                    ps.setString(1, name);
-                    ps.setBytes(2, embeddingsBytes);
+                    ps.setString(1, username);
+                    ps.setString(2, name);
+                    ps.setBytes(3, embeddingsBytes);
 
                     // execute the SQL query
                     int rowsInserted = ps.executeUpdate();
@@ -550,6 +555,9 @@ public class RegisterFaceActivity extends AppCompatActivity {
                     if (rowsInserted > 0) {
                         System.out.println("A new face was inserted successfully.");
                     }
+                    Intent intent = new Intent(RegisterFaceActivity.this,LoginPageActivity.class);
+                    intent.putExtra("name",name);
+                    startActivity(intent);
                     Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
 
                 } catch (SQLException e) {
