@@ -40,6 +40,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.face.Face;
@@ -95,7 +97,8 @@ public class FaceLoginActivity extends AppCompatActivity {
     PreviewView previewView;
     Button camera_switch, scan_face;
 
-    private HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
+    //private HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
+    private List<RecognitionObject> registered = new ArrayList<RecognitionObject>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,7 +173,7 @@ public class FaceLoginActivity extends AppCompatActivity {
                     PreparedStatement ps = connect.prepareStatement("SELECT name,embeedings_data FROM Faces");
                     ResultSet rs = ps.executeQuery();
 
-                    if (rs.next()) {
+                    while (rs.next()) {
                         String name = rs.getString("name");
                         byte[] bytes = rs.getBytes("embeedings_data");
                         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
@@ -178,7 +181,8 @@ public class FaceLoginActivity extends AppCompatActivity {
                         float[][] embeedings = (float[][]) ois.readObject();
 
                         result.setExtra(embeedings);
-                        registered.put(name,result);
+                        //registered.put(name,result);
+                        registered.add(new RecognitionObject("Ashwin", result));
                     }
 
                 } catch (SQLException e) {
@@ -268,11 +272,11 @@ public class FaceLoginActivity extends AppCompatActivity {
         List<Pair<String, Float>> neighbour_list = new ArrayList<Pair<String, Float>>();
         Pair<String, Float> ret = null; //to get closest match
         Pair<String, Float> prev_ret = null; //to get second closest match
-        for (Map.Entry<String, SimilarityClassifier.Recognition> entry : registered.entrySet())
+        for (RecognitionObject object : registered)
         {
 
-            final String name = entry.getKey();
-            final float[] knownEmb = ((float[][]) entry.getValue().getExtra())[0];
+            final String name = object.getName();
+            final float[] knownEmb = ((float[][]) object.getRecognition().getExtra())[0];
 
             float distance = 0;
             for (int i = 0; i < emb.length; i++) {
