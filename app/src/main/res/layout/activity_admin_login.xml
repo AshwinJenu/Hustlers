@@ -18,7 +18,7 @@
         android:drawablePadding="16dp"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:textColorHint="#3B608C"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"

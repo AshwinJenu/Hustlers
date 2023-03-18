@@ -287,7 +287,6 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
             final List<Pair<String, Float>> nearest = findNearest(embeedings[0]);//Find 2 closest matching face
 
             if (nearest.get(0) != null) {
-                Intent intent = getIntent();
 
                 final String uid = nearest.get(0).first; //get name and distance of closest matching face
                 // label = name;
