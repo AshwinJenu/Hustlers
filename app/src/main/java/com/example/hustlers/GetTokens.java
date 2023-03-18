@@ -28,19 +28,25 @@ public class GetTokens {
         appRef.whereEqualTo("uid", uid).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(QueryDocumentSnapshot query : task.getResult()){
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        for(QueryDocumentSnapshot query : task.getResult()){
 
-                    String docId = query.getString("docId");
-                    db.collection("doctor").document(docId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            name = task.getResult().getString("name");
+                            String docId = query.getString("docId");
+                            db.collection("doctor").document(docId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    name = task.getResult().getString("name");
 
-                            list.add(query.getId()+" "+name+" "+query.getBoolean("isVerified")+" "+query.getLong("token"));
+                                    list.add(query.getId()+" "+name+" "+query.getBoolean("isVerified")+" "+query.getLong("token"));
+                                }
+                            });
+
                         }
-                    });
-
-                }
+                    }
+                };
+                r.run();
             }
         });
         return list;
