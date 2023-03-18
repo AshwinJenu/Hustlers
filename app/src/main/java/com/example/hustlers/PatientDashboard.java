@@ -3,6 +3,7 @@ package com.example.hustlers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -91,9 +93,28 @@ public class PatientDashboard extends AppCompatActivity {
                                             booleanMap.put("isVerified", false);
                                             Map<String, Long> longMap = new HashMap<>();
                                             longMap.put("token", token);
-                                            appRef.document(String.valueOf(appId)).set(booleanMap);
-                                            appRef.document(String.valueOf(appId)).set(longMap);
-                                            appRef.document("AppID").update("currentAppId", appId);
+                                            appRef.document("AppID").update("currentAppId", appId).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    appRef.document(String.valueOf(appId)).set(booleanMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            appRef.document(String.valueOf(appId)).set(longMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    Intent intent = new Intent(PatientDashboard.this, MenuActivity.class);
+                                                                    intent.putExtra("name", getIntent().getStringExtra("name"));
+                                                                    startActivity(intent);
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
+
+
+
+
                                         }
                                     }
                                 });
