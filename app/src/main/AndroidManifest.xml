@@ -16,9 +16,11 @@
         android:theme="@style/Theme.Hustlers"
         tools:targetApi="31">
         <activity
+            android:name=".DoctorActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminUIDashboard"
             android:exported="false" />
-
         <activity
             android:name=".TokenActivity"
             android:exported="false" />

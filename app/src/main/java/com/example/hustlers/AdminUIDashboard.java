@@ -16,6 +16,8 @@ public class AdminUIDashboard extends AppCompatActivity {
     ImageView admin_dashboard;
     ImageView logout;
 
+    ImageView doctor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,8 @@ public class AdminUIDashboard extends AppCompatActivity {
 
         admin_dashboard = (ImageView) findViewById(R.id.patient_dashboard_btn);
         logout = (ImageView) findViewById(R.id.lo_btn);
+
+        doctor = (ImageView) findViewById(R.id.imageView10);
 
         admin_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,5 +60,14 @@ public class AdminUIDashboard extends AppCompatActivity {
                 alert.show();
             }
         });
+
+        doctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminUIDashboard.this, DoctorActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
