@@ -30,6 +30,8 @@ public class AdminLoginActivity extends AppCompatActivity {
                 if(isCorrect()) {
                     Intent intent = new Intent(AdminLoginActivity.this, AdminDashboard.class);
                     startActivity(intent);
+                }else{
+
                 }
             }
         });

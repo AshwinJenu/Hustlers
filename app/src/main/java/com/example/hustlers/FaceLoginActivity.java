@@ -109,6 +109,8 @@ public class FaceLoginActivity extends AppCompatActivity {
         camera_switch=(Button) findViewById(R.id.switch_camera_btn_login);
         scan_face = (Button) findViewById(R.id.scan_face_btn);
 
+        scan_face.setEnabled(true);
+
         registered.clear();
         loadFaceData(); //get all faces from SQL DB
         //Check if data is loaded
@@ -197,6 +199,7 @@ public class FaceLoginActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             KToast.errorToast(this, "Connection Failed!", Gravity.BOTTOM, KToast.LENGTH_AUTO);
+            scan_face.setEnabled(false);
             //Toast.makeText(getApplicationContext(), "Connection Failed!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -264,7 +267,7 @@ public class FaceLoginActivity extends AppCompatActivity {
                     intent.putExtra("name",username);
                     startActivity(intent);
                     KToast.customBackgroudToast(this, "Welcome "+username, Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
-
+                    finish();
                     //Toast.makeText(this, "Welcome "+username, Toast.LENGTH_SHORT).show();
                 }
                 else {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.

@@ -335,7 +335,7 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
                     Intent mIntent = new Intent(AdminVerificationActivity.this,AdminDashboard.class);
                     startActivity(mIntent);
                     KToast.customBackgroudToast(this, "Token Generated", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
-
+                    finish();
                 }
                 else {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
                     KToast.warningToast(this, "Unknown Face", Gravity.BOTTOM, KToast.LENGTH_AUTO);

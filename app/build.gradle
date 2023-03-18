@@ -81,4 +81,8 @@ dependencies {
     //Ktoast custom Toast
     implementation 'com.github.onurkagan:ktoast:1.0.3'
 
+    //Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
+
 }

@@ -28,6 +28,7 @@ public class LoginPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginPageActivity.this,FaceLoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -36,6 +37,7 @@ public class LoginPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginPageActivity.this,AdminLoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -44,8 +46,12 @@ public class LoginPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginPageActivity.this,RegisterActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
-
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

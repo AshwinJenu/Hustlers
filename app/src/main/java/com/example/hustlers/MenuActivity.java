@@ -69,7 +69,13 @@ public class MenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MenuActivity.this, PatientDashboard.class);
                 intent.putExtra("name", getIntent().getStringExtra("name"));
                 startActivity(intent);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Do nothing
     }
 }

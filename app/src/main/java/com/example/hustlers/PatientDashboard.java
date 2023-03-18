@@ -102,7 +102,7 @@ public class PatientDashboard extends AppCompatActivity {
                                                     intent.putExtra("name", getIntent().getStringExtra("name"));
                                                     startActivity(intent);
                                                     KToast.customBackgroudToast(PatientDashboard.this, "Appointment Booked", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
-
+                                                    finish();
                                                 }
 
                                                 ;

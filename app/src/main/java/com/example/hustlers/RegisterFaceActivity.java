@@ -33,6 +33,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.util.Pair;
 import android.util.Size;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,6 +51,7 @@ import com.google.mlkit.vision.face.Face;
 import com.google.mlkit.vision.face.FaceDetection;
 import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import org.tensorflow.lite.Interpreter;
 
@@ -558,7 +560,8 @@ public class RegisterFaceActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegisterFaceActivity.this,LoginPageActivity.class);
                     intent.putExtra("name",name);
                     startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
+                    KToast.customBackgroudToast(this, "Registration Successful", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
+                    finish();
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -568,7 +571,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Connection Failed!", Toast.LENGTH_SHORT).show();
+            KToast.errorToast(this, "Connection Failed!", Gravity.BOTTOM, KToast.LENGTH_AUTO);
         }
     }
 }
