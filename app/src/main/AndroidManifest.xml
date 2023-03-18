@@ -16,6 +16,14 @@
         android:theme="@style/Theme.Hustlers"
         tools:targetApi="31">
         <activity
+            android:name=".AdminUIDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".AdminMenu"
+            android:exported="false"
+            android:label="@string/title_activity_admin_menu"
+            android:theme="@style/Theme.Hustlers.NoActionBar" />
+        <activity
             android:name=".PatientDashboard"
             android:exported="false" />
         <activity
