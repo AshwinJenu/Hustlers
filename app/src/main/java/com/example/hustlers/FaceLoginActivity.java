@@ -295,7 +295,7 @@ public class FaceLoginActivity extends AppCompatActivity {
             distance = (float) Math.sqrt(distance);
             if (ret == null || distance < ret.second) {
                 prev_ret=ret;
-                ret = new Pair<>(username, distance);
+                ret = new Pair<>(name, distance);
             }
         }
         if(prev_ret==null) prev_ret=ret;

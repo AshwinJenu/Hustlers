@@ -16,7 +16,7 @@ public class MenuActivity extends AppCompatActivity {
     ImageView chatbot_btn;
     ImageView logout_btn;
 
-    ImageView imageView;
+    ImageView appointmnet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
         chatbot_btn = (ImageView)findViewById(R.id.chatbot_btn);
         logout_btn = (ImageView)findViewById(R.id.logout_btn);
 
-        imageView = (ImageView) findViewById(R.id.imageView14);
+        appointmnet = (ImageView) findViewById(R.id.appointment_btn);
 
         chatbot_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        appointmnet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuActivity.this, PatientDashboard.class);
