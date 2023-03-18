@@ -1,4 +1,4 @@
-package com.example.hustlers.Admin;
+package com.example.hustlers.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -288,12 +288,13 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
                                 db.collection("appointment").document(appId).update("isVerified", true);
 
                                 String finalDocId = docId;
+                                String finalAppId = appId;
                                 db.collection("doctor").document(docId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         try {
                                             long token = (long) task.getResult().get("token") + 1;
-                                        db.collection("appointment").document(finalDocId).update("token", token);
+                                        db.collection("appointment").document(finalAppId).update("token", token);
                                         db.collection("doctor").document(finalDocId).update("token", token);
                                         Log.e("mVerification",token+"");
                                         }catch (RuntimeExecutionException runtimeExecutionException){
