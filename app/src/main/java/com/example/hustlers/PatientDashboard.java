@@ -82,6 +82,7 @@ public class PatientDashboard extends AppCompatActivity {
                                 Map<String, Object> map = new HashMap<>();
                                 map.put("uid", getIntent().getStringExtra("name"));
                                 map.put("docId", docId);
+                                db.collection("doctor").document(docId).update("token", token+1);
 
                                 appRef.document("AppID").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
@@ -89,11 +90,12 @@ public class PatientDashboard extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             long appId = task.getResult().getLong("currentAppId") + 1;
                                             map.put("isVerified", false);
-                                            map.put("token", token);
+                                            map.put("token", 0);
                                             appRef.document("AppID").update("currentAppId", appId).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void unused) {
                                                     appRef.document(String.valueOf(appId)).set(map);
+
 
                                                     Intent intent = new Intent(PatientDashboard.this, MenuActivity.class);
                                                     intent.putExtra("name", getIntent().getStringExtra("name"));
