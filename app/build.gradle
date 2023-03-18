@@ -88,4 +88,8 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
 
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+
+
+
 }

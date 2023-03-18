@@ -95,7 +95,7 @@
         app:srcCompat="@drawable/date" />
 
     <ImageView
-        android:id="@+id/imageView16"
+        android:id="@+id/tokenImage"
         android:layout_width="59dp"
         android:layout_height="48dp"
         app:layout_constraintBottom_toBottomOf="parent"

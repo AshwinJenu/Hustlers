@@ -24,6 +24,9 @@
             android:label="@string/title_activity_admin_menu"
             android:theme="@style/Theme.Hustlers.NoActionBar" />
         <activity
+            android:name=".TokenActivity"
+            android:exported="false" />
+        <activity
             android:name=".PatientDashboard"
             android:exported="false" />
         <activity

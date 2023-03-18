@@ -6,18 +6,12 @@ public class Appointment {
     private boolean isVerified;
 
 
-    public void setRegId(String regId) {
-        this.regId = regId;
-    }
-
-    private String regId;
     private long token;
-    public Appointment(String uid, String docId, boolean isVerified, long token, String regId) {
+    public Appointment(String uid, String docId, boolean isVerified, long token) {
         this.uid = uid;
         this.docId = docId;
         this.isVerified = isVerified;
         this.token = token;
-        this.regId = regId;
     }
 
     public String getUid() {
@@ -44,17 +38,13 @@ public class Appointment {
         this.isVerified = isVerified;
     }
 
-    public String getRegId(){
-        return regId;
-    }
 
     @Override
     public String toString() {
         return "Appointment{" +
                 "uid='" + uid + '\'' +
                 ", docId='" + docId + '\'' +
-                ", isVerified=" + isVerified +
-                ", regId='" + regId + '\'' +
+                ", isVerified=" + isVerified + '\'' +
                 ", token=" + token +
                 '}';
     }

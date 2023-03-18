@@ -17,6 +17,8 @@ public class MenuActivity extends AppCompatActivity {
     ImageView logout_btn;
 
     ImageView appointmnet;
+
+    ImageView tokenImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,8 @@ public class MenuActivity extends AppCompatActivity {
         logout_btn = (ImageView)findViewById(R.id.logout_btn);
 
         appointmnet = (ImageView) findViewById(R.id.appointment_btn);
+
+        tokenImage = (ImageView) findViewById(R.id.tokenImage);
 
         chatbot_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +76,17 @@ public class MenuActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        tokenImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuActivity.this, TokenActivity.class);
+                intent.putExtra("uid", getIntent().getStringExtra("name"));
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override
