@@ -39,7 +39,7 @@ public class DoctorActivity extends AppCompatActivity {
                     List<DocumentSnapshot> l = queryDocumentSnapshots.getDocuments();
                     for (DocumentSnapshot d : l) {
 
-                        list.add(d.getString("Name")+ " " + d.getLong("room") + " " + d.getLong("token"));
+                        list.add("Doctor Name: "+d.getString("name")+ "\nRoom No: " + d.getLong("room") + "\nNo. of Appointments: " + d.getLong("token"));
                     }
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(DoctorActivity.this, android.R.layout.simple_list_item_1, list);
                     listDoctor.setAdapter(arrayAdapter);

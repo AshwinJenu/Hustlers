@@ -33,7 +33,6 @@ public class AdminUIDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AdminUIDashboard.this, AdminDashboard.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -49,6 +48,7 @@ public class AdminUIDashboard extends AppCompatActivity {
                                 Intent intent = new Intent(AdminUIDashboard.this,LoginPageActivity.class);
                                 startActivity(intent);
                                 finish();
+
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -68,6 +68,9 @@ public class AdminUIDashboard extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+    }
+    @Override
+    public void onBackPressed() {
+        //Do nothing
     }
 }

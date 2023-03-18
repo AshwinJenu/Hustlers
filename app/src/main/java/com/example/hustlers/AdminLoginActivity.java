@@ -33,7 +33,6 @@ public class AdminLoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(AdminLoginActivity.this, AdminUIDashboard.class);
                     startActivity(intent);
                     KToast.customBackgroudToast(AdminLoginActivity.this, "Login Successful", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
-                    finish();
                 }else{
                     KToast.warningToast(AdminLoginActivity.this, "Incorrect Credentials", Gravity.BOTTOM, KToast.LENGTH_AUTO);
                 }

@@ -73,7 +73,6 @@ public class MenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MenuActivity.this, PatientDashboard.class);
                 intent.putExtra("name", getIntent().getStringExtra("name"));
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -83,7 +82,6 @@ public class MenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MenuActivity.this, TokenActivity.class);
                 intent.putExtra("uid", getIntent().getStringExtra("name"));
                 startActivity(intent);
-                finish();
             }
         });
 
