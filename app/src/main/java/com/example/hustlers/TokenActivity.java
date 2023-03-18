@@ -56,7 +56,7 @@ public class TokenActivity extends AppCompatActivity {
                         else if (docId.equals("004"))
                             name = "Sarthak";
 
-                        list.add(d.getId()+" "+name+" "+d.getBoolean("isVerified")+" "+d.getLong("token"));
+                        list.add("ApplicationID: "+d.getId()+"\nDoctor Name: "+name+"\nVerified: "+d.getBoolean("isVerified")+"\nToken: "+d.getLong("token"));
                     }
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(TokenActivity.this, android.R.layout.simple_list_item_1, list);
                     listToken.setAdapter(arrayAdapter);

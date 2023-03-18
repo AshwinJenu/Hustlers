@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import org.w3c.dom.Text;
 
@@ -44,11 +46,20 @@ public class RegisterActivity extends AppCompatActivity {
                     db.collection("user").document(email.getText().toString()).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Intent intent = new Intent(RegisterActivity.this, RegisterFaceActivity.class);
 
-                            intent.putExtra("name",email.getText().toString());
-                            intent.putExtra("username",name.getText().toString());
-                            startActivity(intent);
+                            if (EmailValidator.isValidEmail(email.getText().toString())) {
+                                // email is valid
+                                Intent intent = new Intent(RegisterActivity.this, RegisterFaceActivity.class);
+
+                                intent.putExtra("name",email.getText().toString());
+                                intent.putExtra("username",name.getText().toString());
+                                startActivity(intent);
+                            } else {
+                                // email is not valid
+                                KToast.warningToast(RegisterActivity.this, "Email not valid", Gravity.BOTTOM, KToast.LENGTH_AUTO);
+                            }
+
+
                         }
                     });
 

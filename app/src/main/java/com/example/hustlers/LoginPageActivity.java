@@ -26,6 +26,8 @@ public class LoginPageActivity extends AppCompatActivity {
         face_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 Intent intent = new Intent(LoginPageActivity.this,FaceLoginActivity.class);
                 startActivity(intent);
                 finish();
