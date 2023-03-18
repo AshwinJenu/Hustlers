@@ -107,6 +107,7 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
 
     PreviewView previewView;
     Button camera_switch, scan_face;
+    String email;
 
     //private HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
     private List<RecognitionObject> registered = new ArrayList<RecognitionObject>();
@@ -118,11 +119,29 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
         camera_switch=(Button) findViewById(R.id.switch_camera_btn_admin);
         scan_face = (Button) findViewById(R.id.scan_face_btn_Admin);
 
-        loadFaceData(); //get all faces from SQL DB
+        db.collection("appointment").document(getIntent().getStringExtra("appId")).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        email = documentSnapshot.getString("uid");
+                    }
+                };
+                r.run();
+                loadFaceData(email);
+                System.out.println("mEmail "+email.trim());
+            }
+        });
+
+         //get all faces from SQL DB
         //Check if data is loaded
         if(!registered.isEmpty()){
             System.out.println(registered.size()+" Face/s loaded Successfully");
             Log.d("MyApp",registered.size()+" Face/s loaded Successfully");
+        }else{
+            System.out.println("No faces added");
+            Log.d("MyApp","No faces added");
         }
 
         //Camera Permission
@@ -169,7 +188,7 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
 
     }
 
-    private void loadFaceData() {
+    private void loadFaceData(String mEmail) {
 
         try {
             ConnectionHelper register = new ConnectionHelper();
@@ -178,7 +197,9 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
             if (connect != null) {
                 try {
                     PreparedStatement ps = connect.prepareStatement("SELECT username,name,embeedings_data FROM Faces where name = (?)");
-                    ps.setString(1,);
+                    //PreparedStatement ps = connect.prepareStatement("SELECT username,name,embeedings_data FROM Faces");
+                    System.out.println("getemail "+mEmail);
+                    ps.setString(1,mEmail);
                     ResultSet rs = ps.executeQuery();
 
                     while (rs.next()) {
