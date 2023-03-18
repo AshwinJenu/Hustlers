@@ -69,42 +69,38 @@ public class PatientDashboard extends AppCompatActivity {
                 String docName = (String)listView.getItemAtPosition(i);
 
                 CollectionReference appRef = db.collection("appointment");
-                long[] token = new long[1];
-                String[] docId = new String[1];
+
                 ref.whereEqualTo("name", docName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot snapshot: task.getResult()){
-                                token[0] = snapshot.getLong("token");
-                                docId[0] = snapshot.getId();
+                                long token = snapshot.getLong("token");
+                                String docId = snapshot.getId();
+
+                                Map<String, String> map = new HashMap<>();
+                                map.put("uid", getIntent().getStringExtra("name"));
+                                map.put("docId", docId);
+
+                                appRef.document("AppID").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            long appId = task.getResult().getLong("currentAppId")+1;
+                                            Map<String, Boolean> booleanMap = new HashMap<>();
+                                            booleanMap.put("isVerified", false);
+                                            Map<String, Long> longMap = new HashMap<>();
+                                            longMap.put("token", token);
+                                            appRef.document(String.valueOf(appId)).set(booleanMap);
+                                            appRef.document(String.valueOf(appId)).set(longMap);
+                                            appRef.document("AppID").update("currentAppId", appId);
+                                        }
+                                    }
+                                });
                             }
                         }
                     }
                 });
-
-                Map<String, String> map = new HashMap<>();
-                map.put("uid", getIntent().getStringExtra("name"));
-                map.put("docId", docId[0]);
-
-                long[] appId = new long[1];
-                appRef.document("AppID").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            appId[0] = task.getResult().getLong("currentAppId")+1;
-                        }
-                    }
-                });
-
-
-                Map<String, Boolean> booleanMap = new HashMap<>();
-                booleanMap.put("isVerified", false);
-                Map<String, Long> longMap = new HashMap<>();
-                longMap.put("token", token[0]);
-                appRef.document(String.valueOf(appId[0])).set(booleanMap);
-                appRef.document(String.valueOf(appId[0])).set(longMap);
-                appRef.document("AppID").update("currentAppId", appId[0]);
             }
         });
 
