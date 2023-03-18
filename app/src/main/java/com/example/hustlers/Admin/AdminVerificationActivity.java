@@ -1,4 +1,4 @@
-package com.example.hustlers.admin;
+package com.example.hustlers.Admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,7 +48,6 @@ import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -311,11 +310,12 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
                             }
                         }
                     });
-                    Toast.makeText(this, "Welcome "+uid, Toast.LENGTH_SHORT).show();
+                    Intent mIntent = new Intent(AdminVerificationActivity.this,AdminDashboard.class);
+                    KToast.customBackgroudToast(this, "Token Generated", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
 
                 }
                 else {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
-                    Toast.makeText(this, "Unknown Face", Toast.LENGTH_SHORT).show();
+                    KToast.warningToast(this, "Unknown Face", Gravity.BOTTOM, KToast.LENGTH_AUTO);
                 }
             }
         }

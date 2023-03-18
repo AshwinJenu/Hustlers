@@ -2,12 +2,19 @@ package com.example.hustlers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MenuActivity extends AppCompatActivity {
 
     TextView name_tv;
+    ImageView chatbot_btn;
+    ImageView logout_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +23,41 @@ public class MenuActivity extends AppCompatActivity {
         String name = getIntent().getStringExtra("name");
         name_tv = (TextView) findViewById(R.id.name_tv);
         name_tv.setText(name);
+
+        chatbot_btn = (ImageView)findViewById(R.id.chatbot_btn);
+        logout_btn = (ImageView)findViewById(R.id.logout_btn);
+
+        chatbot_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuActivity.this,ChatBotActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+                builder.setMessage("Do you want to Sign Out?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                Intent intent = new Intent(MenuActivity.this,LoginPageActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
 
     }
 }
