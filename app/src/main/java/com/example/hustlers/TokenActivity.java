@@ -9,8 +9,10 @@ import android.widget.ListView;
 
 import com.example.hustlers.Admin.AdminDashboard;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,28 +40,31 @@ public class TokenActivity extends AppCompatActivity {
 
         List<String> list = new ArrayList<>();
 
-        appRef.whereEqualTo("uid", uid).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        appRef.whereEqualTo("uid", uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot query : task.getResult()) {
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    List<DocumentSnapshot> l = queryDocumentSnapshots.getDocuments();
+                    for (DocumentSnapshot d : l) {
+                        String docId = d.getString("docId");
+                        if (docId.equals("001"))
+                            name = "Harsh";
+                        else if (docId.equals("002"))
+                            name = "Ashwin";
+                        else if (docId.equals("003"))
+                            name = "Savio";
+                        else if (docId.equals("004"))
+                            name = "Sarthak";
 
-                    String docId = query.getString("docId");
-                    if (docId.equals("001"))
-                        name = "Harsh";
-                    else if (docId.equals("002"))
-                        name = "Ashwim";
-                    else if (docId.equals("003"))
-                        name = "Savio";
-                    else if (docId.equals("004"))
-                        name = "Sarthak";
-
-                    list.add(query.getId() + " " + name + " " + query.getBoolean("isVerified") + " " + query.getLong("token"));
+                        list.add(d.getId()+" "+name+" "+d.getBoolean("isVerified")+" "+d.getLong("token"));
+                    }
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(TokenActivity.this, android.R.layout.simple_list_item_1, list);
+                    listToken.setAdapter(arrayAdapter);
                 }
             }
         });
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(TokenActivity.this, android.R.layout.simple_list_item_1, list);
-        listToken.setAdapter(arrayAdapter);
+
 
     }
 }
