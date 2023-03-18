@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -86,16 +87,24 @@ public class PatientDashboard extends AppCompatActivity {
                 map.put("uid", getIntent().getStringExtra("name"));
                 map.put("docId", docId[0]);
 
-                long appId = appRef.document("AppID").get().getResult().getLong("currentAppId") +1;
+                long[] appId = new long[1];
+                appRef.document("AppID").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            appId[0] = task.getResult().getLong("currentAppId")+1;
+                        }
+                    }
+                });
 
 
                 Map<String, Boolean> booleanMap = new HashMap<>();
                 booleanMap.put("isVerified", false);
                 Map<String, Long> longMap = new HashMap<>();
                 longMap.put("token", token[0]);
-                appRef.document(String.valueOf(appId)).set(booleanMap);
-                appRef.document(String.valueOf(appId)).set(longMap);
-                appRef.document("AppID").update("currentAppId", appId);
+                appRef.document(String.valueOf(appId[0])).set(booleanMap);
+                appRef.document(String.valueOf(appId[0])).set(longMap);
+                appRef.document("AppID").update("currentAppId", appId[0]);
             }
         });
 
