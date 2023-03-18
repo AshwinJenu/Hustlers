@@ -95,6 +95,7 @@ public class PatientDashboard extends AppCompatActivity {
                 longMap.put("token", token[0]);
                 appRef.document(String.valueOf(appId)).set(booleanMap);
                 appRef.document(String.valueOf(appId)).set(longMap);
+                appRef.document("AppID").update("currentAppId", appId);
             }
         });
 
