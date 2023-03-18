@@ -72,6 +72,7 @@ public class AdminDashboard extends AppCompatActivity {
                 String appId = (String)listView.getItemAtPosition(i);
                 intent.putExtra("appId",appId);
                 startActivity(intent);
+                finish();
             }
         });
     }

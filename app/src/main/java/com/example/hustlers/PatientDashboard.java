@@ -84,7 +84,6 @@ public class PatientDashboard extends AppCompatActivity {
                                 Map<String, Object> map = new HashMap<>();
                                 map.put("uid", getIntent().getStringExtra("name"));
                                 map.put("docId", docId);
-                                db.collection("doctor").document(docId).update("token", token+1);
 
                                 appRef.document("AppID").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override

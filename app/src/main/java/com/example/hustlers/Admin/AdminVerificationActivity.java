@@ -177,7 +177,8 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
 
             if (connect != null) {
                 try {
-                    PreparedStatement ps = connect.prepareStatement("SELECT username,name,embeedings_data FROM Faces");
+                    PreparedStatement ps = connect.prepareStatement("SELECT username,name,embeedings_data FROM Faces where name = (?)");
+                    ps.setString(1,);
                     ResultSet rs = ps.executeQuery();
 
                     while (rs.next()) {
@@ -281,7 +282,7 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
                             String docId;
 
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                appId = documentSnapshot.getString("regId");
+                                appId = getIntent().getStringExtra("appId");
                                 docId = documentSnapshot.getString("docId");
 
                                 db.collection("appointment").document(appId).update("isVerified", true);
@@ -311,6 +312,7 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
                         }
                     });
                     Intent mIntent = new Intent(AdminVerificationActivity.this,AdminDashboard.class);
+                    startActivity(mIntent);
                     KToast.customBackgroudToast(this, "Token Generated", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
 
                 }
@@ -329,6 +331,7 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
         {
             final String username = object.getUserName();
             final String name = object.getName();
+
             //Iterating Properly
             System.out.println("email: "+name);
             final float[] knownEmb = ((float[][]) object.getRecognition().getExtra())[0];
