@@ -41,11 +41,11 @@ public class PatientDashboard extends AppCompatActivity {
         ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Runnable r = new Runnable() {
                         @Override
                         public void run() {
-                            for(QueryDocumentSnapshot snapshot: task.getResult()){
+                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
                                 list.add(snapshot.getString("name"));
                             }
                         }
@@ -54,8 +54,7 @@ public class PatientDashboard extends AppCompatActivity {
 
                     ArrayAdapter arrayAdapter = new ArrayAdapter(PatientDashboard.this, android.R.layout.simple_list_item_1, list);
                     listView.setAdapter(arrayAdapter);
-                }
-                else{
+                } else {
                     Log.d("Doctor", "Not Loaded");
                 }
             }
@@ -68,55 +67,45 @@ public class PatientDashboard extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String docName = (String)listView.getItemAtPosition(i);
+                String docName = (String) listView.getItemAtPosition(i);
 
                 CollectionReference appRef = db.collection("appointment");
 
                 ref.whereEqualTo("name", docName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot snapshot: task.getResult()){
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
                                 long token = snapshot.getLong("token");
                                 String docId = snapshot.getId();
 
-                                Map<String, String> map = new HashMap<>();
+                                Map<String, Object> map = new HashMap<>();
                                 map.put("uid", getIntent().getStringExtra("name"));
                                 map.put("docId", docId);
 
                                 appRef.document("AppID").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if(task.isSuccessful()){
-                                            long appId = task.getResult().getLong("currentAppId")+1;
-                                            Map<String, Boolean> booleanMap = new HashMap<>();
-                                            booleanMap.put("isVerified", false);
-                                            Map<String, Long> longMap = new HashMap<>();
-                                            longMap.put("token", token);
+                                        if (task.isSuccessful()) {
+                                            long appId = task.getResult().getLong("currentAppId") + 1;
+                                            map.put("isVerified", false);
+                                            map.put("token", token);
                                             appRef.document("AppID").update("currentAppId", appId).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void unused) {
-                                                    appRef.document(String.valueOf(appId)).set(booleanMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void unused) {
-                                                            appRef.document(String.valueOf(appId)).set(longMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                @Override
-                                                                public void onSuccess(Void unused) {
-                                                                    Intent intent = new Intent(PatientDashboard.this, MenuActivity.class);
-                                                                    intent.putExtra("name", getIntent().getStringExtra("name"));
-                                                                    startActivity(intent);
-                                                                }
-                                                            });
-                                                        }
-                                                    });
+                                                    appRef.document(String.valueOf(appId)).set(map);
+
+                                                    Intent intent = new Intent(PatientDashboard.this, MenuActivity.class);
+                                                    intent.putExtra("name", getIntent().getStringExtra("name"));
+                                                    startActivity(intent);
                                                 }
+
+                                                ;
                                             });
-
-
-
-
                                         }
                                     }
+
+                                    ;
                                 });
                             }
                         }
@@ -124,6 +113,5 @@ public class PatientDashboard extends AppCompatActivity {
                 });
             }
         });
-
     }
 }
