@@ -13,43 +13,38 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GetTokens {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String name;
 
-    public List<String> getList(String uid){
+    public List<String> getList(String uid) {
 
         CollectionReference appRef = db.collection("appointment");
 
         List<String> list = new ArrayList<>();
 
-
         appRef.whereEqualTo("uid", uid).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                Runnable r = new Runnable() {
-                    @Override
-                    public void run() {
-                        for(QueryDocumentSnapshot query : task.getResult()){
+                for (QueryDocumentSnapshot query : task.getResult()) {
 
-                            String docId = query.getString("docId");
-                            db.collection("doctor").document(docId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    name = task.getResult().getString("name");
+                    String docId = query.getString("docId");
+                    if (docId.equals("001"))
+                        name = "Harsh";
+                    else if (docId.equals("002"))
+                        name = "Ashwim";
+                    else if (docId.equals("003"))
+                        name = "Savio";
+                    else if (docId.equals("004"))
+                        name = "Sarthak";
 
-                                    list.add(query.getId()+" "+name+" "+query.getBoolean("isVerified")+" "+query.getLong("token"));
-                                }
-                            });
-
-                        }
-                    }
-                };
-                r.run();
+                    list.add(query.getId() + " " + name + " " + query.getBoolean("isVerified") + " " + query.getLong("token"));
+                }
             }
         });
-        return list;
 
+        return list;
     }
 }

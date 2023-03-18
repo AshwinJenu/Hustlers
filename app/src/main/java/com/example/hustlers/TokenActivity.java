@@ -23,7 +23,8 @@ public class TokenActivity extends AppCompatActivity {
 
         listToken = (ListView) findViewById(R.id.listToken);
         GetTokens getTokens = new GetTokens();
-        List<String> list = getTokens.getList(getIntent().getStringExtra("uid"));
+        String uid = getIntent().getStringExtra("uid");
+        List<String> list = getTokens.getList(uid);
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(TokenActivity.this, android.R.layout.simple_list_item_1, list);
 
