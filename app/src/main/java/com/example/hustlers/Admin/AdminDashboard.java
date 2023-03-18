@@ -44,7 +44,7 @@ public class AdminDashboard extends AppCompatActivity {
                         @Override
                         public void run() {
                             for(QueryDocumentSnapshot doc : task.getResult()){
-                                list.add(doc.getString("regId"));
+                                list.add(doc.getId());
 
                                 Log.d("Data in loop", String.valueOf(list));
                             }

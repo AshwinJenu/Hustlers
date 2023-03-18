@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,6 +102,8 @@ public class PatientDashboard extends AppCompatActivity {
                                                     Intent intent = new Intent(PatientDashboard.this, MenuActivity.class);
                                                     intent.putExtra("name", getIntent().getStringExtra("name"));
                                                     startActivity(intent);
+                                                    KToast.customBackgroudToast(PatientDashboard.this, "Appointment Booked", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.drawable.background_toast, null ,R.drawable.ic_infinite_white);
+
                                                 }
 
                                                 ;
