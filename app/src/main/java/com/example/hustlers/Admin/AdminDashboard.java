@@ -1,4 +1,4 @@
-package com.example.hustlers.admin;
+package com.example.hustlers.Admin;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.hustlers.Admin.AdminVerificationActivity;
 import com.example.hustlers.Appointment;
 import com.example.hustlers.R;
 import com.google.android.gms.tasks.OnCompleteListener;

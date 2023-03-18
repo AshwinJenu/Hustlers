@@ -28,10 +28,10 @@
             android:name=".MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminVerificationActivity"
+            android:name=".Admin.AdminVerificationActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminDashboard"
+            android:name=".Admin.AdminDashboard"
             android:exported="false" />
         <activity
             android:name=".FaceLoginActivity"

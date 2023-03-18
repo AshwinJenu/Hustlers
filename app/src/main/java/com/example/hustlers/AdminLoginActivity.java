@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.hustlers.admin.AdminDashboard;
+import com.example.hustlers.Admin.AdminDashboard;
 
 public class AdminLoginActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.hustlers.admin;
+package com.example.hustlers.Admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.util.Size;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ import com.example.hustlers.SimilarityClassifier;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.firestore.CollectionReference;
@@ -56,6 +58,7 @@ import com.google.mlkit.vision.face.Face;
 import com.google.mlkit.vision.face.FaceDetection;
 import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import org.tensorflow.lite.Interpreter;
 
@@ -169,20 +172,21 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
 
     private void loadFaceData() {
 
-        //Create and Initialize new object with Face embeddings and Name.
-        SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition(
-                "0", "", -1f);
-
         try {
             ConnectionHelper register = new ConnectionHelper();
             Connection connect = register.connectionclass();
 
             if (connect != null) {
                 try {
-                    PreparedStatement ps = connect.prepareStatement("SELECT name,embeedings_data FROM Faces");
+                    PreparedStatement ps = connect.prepareStatement("SELECT username,name,embeedings_data FROM Faces");
                     ResultSet rs = ps.executeQuery();
 
                     while (rs.next()) {
+
+                        //Create and Initialize new object with Face embeddings and Name.
+                        SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition(
+                                "0", "", -1f);
+
                         String username = rs.getString("username");
                         String name = rs.getString("name");
                         byte[] bytes = rs.getBytes("embeedings_data");
@@ -192,6 +196,7 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
 
                         result.setExtra(embeedings);
                         //registered.put(name,result);
+                        //TODO: CHANGE NAME
                         registered.add(new RecognitionObject(username,name, result));
                     }
 
@@ -203,7 +208,8 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Connection Failed!", Toast.LENGTH_SHORT).show();
+            KToast.errorToast(this, "Connection Failed!", Gravity.BOTTOM, KToast.LENGTH_AUTO);
+            //Toast.makeText(getApplicationContext(), "Connection Failed!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -285,16 +291,27 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
                                 db.collection("doctor").document(docId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        int token = (int) task.getResult().get("token") + 1;
+                                        try {
+                                            long token = (long) task.getResult().get("token") + 1;
                                         db.collection("appointment").document(finalDocId).update("token", token);
                                         db.collection("doctor").document(finalDocId).update("token", token);
+                                        Log.e("mVerification",token+"");
+                                        }catch (RuntimeExecutionException runtimeExecutionException){
+                                            System.out.println("FireBase Problem "+runtimeExecutionException);
+                                        }//Both Exceptions are not thrown
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        e.printStackTrace();
+                                        Log.e("Firebase Problem",String.valueOf(e));
                                     }
                                 });
                             }
                         }
                     });
-
                     Toast.makeText(this, "Welcome "+uid, Toast.LENGTH_SHORT).show();
+
                 }
                 else {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
                     Toast.makeText(this, "Unknown Face", Toast.LENGTH_SHORT).show();
@@ -309,8 +326,10 @@ public class AdminVerificationActivity extends AppCompatActivity {private Listen
         Pair<String, Float> prev_ret = null; //to get second closest match
         for (RecognitionObject object : registered)
         {
-
+            final String username = object.getUserName();
             final String name = object.getName();
+            //Iterating Properly
+            System.out.println("email: "+name);
             final float[] knownEmb = ((float[][]) object.getRecognition().getExtra())[0];
 
             float distance = 0;
