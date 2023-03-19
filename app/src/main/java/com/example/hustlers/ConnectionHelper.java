@@ -14,12 +14,11 @@ public class ConnectionHelper {
 
     public Connection connectionclass() throws SQLException, ClassNotFoundException {
 
-        ip = "103.233.24.136";
-        //database = "DEMO2";
-        database = "GDA";
-        uname = "ashwin";
-        pass = "123456";
-        port = "1433";
+        ip = "SERVER IP";
+        database = "DATABASE NAME";
+        uname = "USERNAME";
+        pass = "PASSWORD";
+        port = "PORT";
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
